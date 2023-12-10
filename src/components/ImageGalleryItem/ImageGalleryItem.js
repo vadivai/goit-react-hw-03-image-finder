@@ -7,3 +7,11 @@ export const ImageGalleryItem = ({ src, alt }) => {
     </li>
   );
 };
+
+// openModal = photo => {
+//   this.setState({ showModal: true, photo });
+// };
+
+// closeModal = () => {
+//   this.setState({ showModal: false, photo: '' });
+// };
