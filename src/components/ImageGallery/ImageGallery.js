@@ -7,7 +7,14 @@ export const ImageGallery = ({ images }) => {
     <ImageGalleryStyled>
       {images.map(image => {
         const { id, webformatURL, alt, largeImageURL } = image;
-        return <ImageGalleryItem key={id} src={webformatURL} alt={alt} />;
+        return (
+          <ImageGalleryItem
+            key={id}
+            src={webformatURL}
+            alt={alt}
+            srcLarge={largeImageURL}
+          />
+        );
       })}
     </ImageGalleryStyled>
   );
