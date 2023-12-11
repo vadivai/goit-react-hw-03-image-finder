@@ -18,14 +18,14 @@ export const Searchbar = ({ stateQuery, onSubmitQuery }) => {
 
     if (queryValue === '') {
       // return alert('PLEASE, ENTER QUERY!');
-      toast.error('PLEASE, ENTER YOUR QUERY!');
+      return toast.error('PLEASE, ENTER YOUR QUERY!');
     }
 
     if (queryValue === stateQuery && stateQuery !== '') {
       // return alert(
       //   'Повторний запит, перезавантажте сторінку або введіть інший запит'
       // );
-      toast.error(
+      return toast.error(
         'Повторний запит, перезавантажте сторінку або введіть інший запит'
       );
     }
