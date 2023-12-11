@@ -3,6 +3,7 @@ import { Searchbar, ImageGallery, Button, Loader } from 'components';
 // import css from './App.module.css';
 import { getImages, perPage } from 'components/service/api';
 import { AppStyled } from './App.styled';
+import toast, { Toaster } from 'react-hot-toast';
 
 export class App extends Component {
   state = {
@@ -67,12 +68,14 @@ export class App extends Component {
     const { query, images, isLoading, isVisible, isEmpty, error } = this.state;
     return (
       <AppStyled>
-        <Searchbar textQuery={query} onSubmitQuery={this.onSubmitQuery} />
+        <Searchbar stateQuery={query} onSubmitQuery={this.onSubmitQuery} />
         {isLoading && <Loader />}
-        {error && <h3>Sorry, something went wrong...</h3>}
-        {isEmpty && <h3>There are no images. Please, change your query!</h3>}
+        {error && toast.error('Sorry, something went wrong...')}
+        {isEmpty &&
+          toast.error('There are no images. Please, change your query!')}
         {images.length > 0 && <ImageGallery images={images} />}
         {isVisible && <Button onClick={this.onLoadMore}>Load more</Button>}
+        <Toaster />
       </AppStyled>
     );
   }
