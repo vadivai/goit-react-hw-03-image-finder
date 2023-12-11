@@ -9,9 +9,16 @@ const getImages = async (query, page) => {
   const response = await axios.get(
     `${BASE_URL}?q=${query}&key=${KEY}&per_page=${perPage}&page=${page}&${params}`
   );
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
+
+  // ERROR REQUEST
+  // const response = await axios.get(
+  //   `${BASE_URL}111?q=${query}&key=${KEY}&per_page=${perPage}&page=${page}&${params}`
+  // );
 };
+
+export { getImages, perPage };
 
 // почему не работает такой запрос
 // const getImages = async (query, page) => {
@@ -28,8 +35,3 @@ const getImages = async (query, page) => {
 //   console.log(response.data.hits);
 //   return response.data;
 // };
-
-export { getImages };
-// id - уникальный идентификатор
-// webformatURL - ссылка на маленькое изображение для списка карточек
-// largeImageURL - ссылка на большое изображение для модального окна

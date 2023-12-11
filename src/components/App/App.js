@@ -1,57 +1,44 @@
 import { Component } from 'react';
 import { Searchbar, ImageGallery, Button, Loader } from 'components';
 // import css from './App.module.css';
-import { getImages } from 'components/service/api';
+import { getImages, perPage } from 'components/service/api';
 import { AppStyled } from './App.styled';
 
 export class App extends Component {
   state = {
     query: '',
     images: [],
+    page: 1,
     isLoading: false,
+    isVisible: false,
+    isEmpty: false,
     error: false,
   };
-
-  // async componentDidMount() {
-  //     const { query, page } = this.state;
-  //     if (prevState.query !== query || prevState.page !== page) {
-  //       getImages(query, page);
-  //     }
-  //   }
-  //   try {
-  //     this.setState({ isLoading: true, error: false, images: [] });
-  //     const fetchImages = await getImages('cat', 1);
-  //     this.setState({ images: fetchImages.hits });
-  //   } catch (error) {
-  //     this.setState({ error: true });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
-      this.getImages(query, page);
+      this.fetchImages(query, page);
     }
   }
 
-  getImages = async (query, page) => {
-    if (!query) {
-      return;
+  fetchImages = async (query, page) => {
+    if (!query.trim()) {
+      return alert('Enter query, please');
     }
-    this.setState({ isLoading: true, error: false, images: [] });
+    this.setState({ isLoading: true, error: false });
 
     try {
-      const {
-        hits,
-        total,
-        page: currentPage,
-        per_page,
-      } = await getImages(query, page);
-      console.log('total', total);
-
-      this.setState({ images: hits });
+      const { hits, total } = await getImages(query, page);
+      // console.log('hits.length', hits.length);
+      if (hits.length === 0) {
+        this.setState({ isEmpty: true });
+      }
+      this.setState(prevState => ({
+        images: [...prevState.images, ...hits],
+        isVisible: page < Math.ceil(total / perPage),
+      }));
+      // console.log('Math.ceil', Math.ceil(total / perPage));
     } catch (error) {
       this.setState({ error: true });
     } finally {
@@ -59,21 +46,13 @@ export class App extends Component {
     }
   };
 
-  // try {
-
-  //     this.setState(prevState => ({
-  //       images: [...prevState.images, ...hits],
-  //       isVisible: currentPage < Math.ceil(total / per_page),
-  //     }));
-  // };
-
   onSubmitQuery = query => {
     this.setState({
       query,
       images: [],
       page: 1,
+      isEmpty: false,
     });
-    getImages(query, 1);
   };
 
   loadMore = () => {
@@ -81,13 +60,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading } = this.state;
+    const { images, isLoading, isVisible, isEmpty, error } = this.state;
     return (
       <AppStyled>
         <Searchbar onSubmitQuery={this.onSubmitQuery} />
         {isLoading && <Loader />}
+        {error && <h3>Sorry, something went wrong...</h3>}
+        {isEmpty && <h3>There are no images. Please, change your query!</h3>}
         {images.length > 0 && <ImageGallery images={images} />}
-        <Button onClick={this.loadMore}>Load more</Button>
+        {isVisible && <Button onClick={this.loadMore}>Load more</Button>}
       </AppStyled>
     );
   }

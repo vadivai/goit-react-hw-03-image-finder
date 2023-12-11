@@ -1,7 +1,3 @@
-// Компонент спинера, отображется пока идет загрузка изобаржений.
-// Используй любой готовый компонент, например react - loader - spinner
-//  или любой другой.
-
 import { Audio, Vortex } from 'react-loader-spinner';
 import { SpinnerCenter } from './Loader.styled';
 
