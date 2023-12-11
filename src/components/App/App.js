@@ -18,12 +18,13 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
-      this.fetchImages(query, page);
+      this.fetchImages();
     }
   }
 
-  fetchImages = async (query, page) => {
-    if (!query.trim()) {
+  fetchImages = async () => {
+    const { query, page } = this.state;
+    if (!query) {
       return alert('Enter query, please');
     }
     this.setState({ isLoading: true, error: false });
@@ -55,7 +56,7 @@ export class App extends Component {
     });
   };
 
-  loadMore = () => {
+  onLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
@@ -68,7 +69,7 @@ export class App extends Component {
         {error && <h3>Sorry, something went wrong...</h3>}
         {isEmpty && <h3>There are no images. Please, change your query!</h3>}
         {images.length > 0 && <ImageGallery images={images} />}
-        {isVisible && <Button onClick={this.loadMore}>Load more</Button>}
+        {isVisible && <Button onClick={this.onLoadMore}>Load more</Button>}
       </AppStyled>
     );
   }

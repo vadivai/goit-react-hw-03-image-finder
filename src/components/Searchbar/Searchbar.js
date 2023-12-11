@@ -12,7 +12,7 @@ export const Searchbar = ({ onSubmitQuery }) => {
     const {
       query: { value: queryValue },
     } = e.target.elements;
-    onSubmitQuery(queryValue.toLowerCase());
+    onSubmitQuery(queryValue.trim().toLowerCase());
   };
 
   return (
