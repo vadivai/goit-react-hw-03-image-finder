@@ -1,23 +1,32 @@
-import css from './Searchbar.module.css';
+// import css from './Searchbar.module.css';
+import {
+  SearchButtonStyled,
+  SearchFormStyled,
+  SearchInputStyled,
+  SearchbarStyled,
+} from './Searchbar.styled';
 
-export const Searchbar = ({ onSubmit }) => {
+export const Searchbar = ({ onSubmitQuery }) => {
+  const submitQuery = e => {
+    e.preventDefault();
+    const {
+      query: { value: queryValue },
+    } = e.target.elements;
+    onSubmitQuery(queryValue.toLowerCase());
+  };
+
   return (
-    <>
-      <header className={css.Searchbar}>
-        <form className={css.SearchForm}>
-          <input
-            className={css['SearchForm-Input']}
-            type="text"
-            name="query"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-          <button type="submit" className={css['SearchForm-Button']}>
-            Search
-          </button>
-        </form>
-      </header>
-    </>
+    <SearchbarStyled>
+      <SearchFormStyled onSubmit={submitQuery}>
+        <SearchInputStyled
+          type="text"
+          name="query"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+        <SearchButtonStyled type="submit">Search</SearchButtonStyled>
+      </SearchFormStyled>
+    </SearchbarStyled>
   );
 };

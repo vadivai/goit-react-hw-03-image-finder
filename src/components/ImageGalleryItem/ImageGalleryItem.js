@@ -1,17 +1,10 @@
 import css from './ImageGalleryItem.module.css';
+import { ImgStyled, ItemStyled } from './ImageGalleryItem.styled';
 
 export const ImageGalleryItem = ({ src, alt }) => {
   return (
-    <li className={css.ImageGalleryItem}>
-      <img src={src} alt={alt} className={css['ImageGalleryItem-image']} />
-    </li>
+    <ItemStyled>
+      <ImgStyled src={src} alt={alt} />
+    </ItemStyled>
   );
 };
-
-// openModal = photo => {
-//   this.setState({ showModal: true, photo });
-// };
-
-// closeModal = () => {
-//   this.setState({ showModal: false, photo: '' });
-// };

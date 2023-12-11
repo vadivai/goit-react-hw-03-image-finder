@@ -1,58 +1,57 @@
 import { Component } from 'react';
-import { Searchbar, ImageGallery, Loader, Button, Modal } from 'components';
-import css from './App.module.css';
-import { getImages, perPage } from 'components/service/api';
+import { Searchbar, ImageGallery, Button, Loader } from 'components';
+// import css from './App.module.css';
+import { getImages } from 'components/service/api';
+import { AppStyled } from './App.styled';
 
 export class App extends Component {
   state = {
     query: '',
-    page: 1,
-    isLoading: false,
-    isVisible: false,
     images: [],
-    // isEmpty: false,
+    isLoading: false,
     error: false,
   };
 
-  componentDidMount() {
-    // getImages('cat', 1);
-    // this.setState(prevState => ({
-    //   images: [...prevState.images, ...getImages('cat')],
-    // }));
-  }
+  // async componentDidMount() {
+  //     const { query, page } = this.state;
+  //     if (prevState.query !== query || prevState.page !== page) {
+  //       getImages(query, page);
+  //     }
+  //   }
+  //   try {
+  //     this.setState({ isLoading: true, error: false, images: [] });
+  //     const fetchImages = await getImages('cat', 1);
+  //     this.setState({ images: fetchImages.hits });
+  //   } catch (error) {
+  //     this.setState({ error: true });
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
-
     if (prevState.query !== query || prevState.page !== page) {
-      getImages(query, page);
+      this.getImages(query, page);
     }
   }
 
-  getPhotos = async (query, page) => {
-    // if (!query.trim()) {
-    //   return;
-    // }
-    this.setState({ isLoading: true });
-    // error: false, image: []
+  getImages = async (query, page) => {
+    if (!query) {
+      return;
+    }
+    this.setState({ isLoading: true, error: false, images: [] });
 
     try {
       const {
-        hits: photos,
+        hits,
         total,
         page: currentPage,
         per_page,
       } = await getImages(query, page);
       console.log('total', total);
 
-      // if (photos.length === 0) {
-      //   this.setState({ isEmpty: true });
-      // }
-
-      this.setState(prevState => ({
-        images: [...prevState.images, ...photos],
-        isVisible: currentPage < Math.ceil(total / per_page), // totalHits учесть не более 500
-      }));
+      this.setState({ images: hits });
     } catch (error) {
       this.setState({ error: true });
     } finally {
@@ -60,15 +59,21 @@ export class App extends Component {
     }
   };
 
-  querySubmit = evt => {
-    evt.preventDefault();
+  // try {
+
+  //     this.setState(prevState => ({
+  //       images: [...prevState.images, ...hits],
+  //       isVisible: currentPage < Math.ceil(total / per_page),
+  //     }));
+  // };
+
+  onSubmitQuery = query => {
     this.setState({
-      query: evt.target.value,
+      query,
       images: [],
       page: 1,
-      // isEmpty: false,
-      error: false,
     });
+    getImages(query, 1);
   };
 
   loadMore = () => {
@@ -76,30 +81,14 @@ export class App extends Component {
   };
 
   render() {
-    const { isVisible, isLoading, isEmpty, images, error } = this.state;
+    const { images, isLoading } = this.state;
     return (
-      <div className={css.App}>
-        <Searchbar onSubmit={this.querySubmit} />
-        {error && <p>❌ Something went wrong - {error}</p>}
-        {/* {isEmpty && <p>Sorry. There are no images ... 😭</p>} */}
+      <AppStyled>
+        <Searchbar onSubmitQuery={this.onSubmitQuery} />
         {isLoading && <Loader />}
-        {images.length > 0 && <ImageGallery />}
-        {isVisible && (
-          <Button onClick={this.loadMore} disabled={isLoading}>
-            Load more
-          </Button>
-        )}
-        {/* <Modal>Open</Modal> */}
-        {/* <MyModal
-          modalIsOpen={showModal}
-          closeModal={this.closeModal}
-          src={img}
-        /> */}
-      </div>
+        {images.length > 0 && <ImageGallery images={images} />}
+        <Button onClick={this.loadMore}>Load more</Button>
+      </AppStyled>
     );
   }
 }
-
-// id - уникальный идентификатор
-// webformatURL - ссылка на маленькое изображение для списка карточек
-// largeImageURL - ссылка на большое изображение для модального окна

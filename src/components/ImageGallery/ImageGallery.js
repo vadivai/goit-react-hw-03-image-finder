@@ -1,24 +1,14 @@
 import { ImageGalleryItem } from 'components';
-import css from './ImageGallery.module.css';
-import data from '../service/data.json';
+// import css from './ImageGallery.module.css';
+import { ImageGalleryStyled } from './ImageGallery.styled';
 
-// const URL =
-//   'https://img.freepik.com/free-photo/landscape-of-morning-fog-and-mountains-with-hot-air-balloons-at-sunrise_335224-794.jpg?w=740&t=st=1702128478~exp=1702129078~hmac=f6fb190977739c94ddb6975688136a975c8ca0e2765965d6b91f2f8befdd420f';
-export const ImageGallery = () => {
-  // console.log('URL1', URL);
+export const ImageGallery = ({ images }) => {
   return (
-    <ul className={css.ImageGallery}>
-      {data.map(({ id, src, alt }) => {
-        return <ImageGalleryItem key={id} src={src} alt={alt} />;
+    <ImageGalleryStyled>
+      {images.map(image => {
+        const { id, webformatURL, alt, largeImageURL } = image;
+        return <ImageGalleryItem key={id} src={webformatURL} alt={alt} />;
       })}
-    </ul>
+    </ImageGalleryStyled>
   );
 };
-
-// images.map(({ id, avg_color, alt, src }) => (
-//       <GridItem key={id} onClick={() => this.openModal(src.large)}>
-//         <CardItem color={avg_color}>
-//           <img src={src.large} alt={alt} />
-//         </CardItem>
-//       </GridItem>
-//     ))

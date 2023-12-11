@@ -7,7 +7,7 @@ import { SpinnerCenter } from './Loader.styled';
 
 export const Loader = () => (
   <SpinnerCenter>
-    <Vortex
+    {/* <Vortex
       visible={true}
       height="80"
       width="80"
@@ -15,7 +15,7 @@ export const Loader = () => (
       wrapperStyle={{}}
       wrapperClass="vortex-wrapper"
       colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-    />
+    /> */}
     <Audio
       height="80"
       width="80"
