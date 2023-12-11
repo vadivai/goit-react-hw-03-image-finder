@@ -1,4 +1,4 @@
-import css from './ImageGalleryItem.module.css';
+// import css from './ImageGalleryItem.module.css';
 import { ImgStyled, ItemStyled } from './ImageGalleryItem.styled';
 import { Component } from 'react';
 import { Modal } from 'components';

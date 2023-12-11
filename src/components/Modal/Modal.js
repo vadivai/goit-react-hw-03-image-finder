@@ -27,6 +27,15 @@ const customStyles = {
 
 export const Modal = ({ isOpen, onClose, srcLarge, alt }) => {
   return (
+    //  <ReactModal
+    //     isOpen={isOpen}
+    //     onRequestClose={onClose}
+    //     style={customStyles}
+    //     contentLabel="Large Image"
+    //   >
+    //     <img src={srcLarge} alt={alt} />
+    //   </ReactModal>
+
     <ModalStyled
       isOpen={isOpen}
       onRequestClose={onClose}

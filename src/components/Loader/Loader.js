@@ -1,4 +1,4 @@
-import { Audio, Vortex } from 'react-loader-spinner';
+import { Audio } from 'react-loader-spinner';
 import { SpinnerCenter } from './Loader.styled';
 
 export const Loader = () => (
