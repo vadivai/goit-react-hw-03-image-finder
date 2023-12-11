@@ -24,9 +24,9 @@ export class App extends Component {
 
   fetchImages = async () => {
     const { query, page } = this.state;
-    if (!query) {
-      return alert('Enter query, please');
-    }
+    // if (!query) {
+    //   return alert('Enter query, please');
+    // }
     this.setState({ isLoading: true, error: false });
 
     try {
@@ -53,6 +53,9 @@ export class App extends Component {
       images: [],
       page: 1,
       isEmpty: false,
+      isVisible: false,
+
+      //еще добавить что-то?
     });
   };
 
@@ -61,10 +64,10 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, isVisible, isEmpty, error } = this.state;
+    const { query, images, isLoading, isVisible, isEmpty, error } = this.state;
     return (
       <AppStyled>
-        <Searchbar onSubmitQuery={this.onSubmitQuery} />
+        <Searchbar textQuery={query} onSubmitQuery={this.onSubmitQuery} />
         {isLoading && <Loader />}
         {error && <h3>Sorry, something went wrong...</h3>}
         {isEmpty && <h3>There are no images. Please, change your query!</h3>}

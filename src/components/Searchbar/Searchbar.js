@@ -6,13 +6,26 @@ import {
   SearchbarStyled,
 } from './Searchbar.styled';
 
-export const Searchbar = ({ onSubmitQuery }) => {
+export const Searchbar = ({ textQuery, onSubmitQuery }) => {
   const submitQuery = e => {
     e.preventDefault();
     const {
-      query: { value: queryValue },
+      query: { value },
     } = e.target.elements;
-    onSubmitQuery(queryValue.trim().toLowerCase());
+
+    const queryValue = value.trim().toLowerCase();
+
+    if (queryValue === '') {
+      return alert('PLEASE, ENTER QUERY!');
+    }
+
+    if (queryValue === textQuery) {
+      return alert(
+        'Повторний запрос, перезавантажте сторінку або введіть інший запрос'
+      );
+    }
+
+    onSubmitQuery(queryValue);
   };
 
   return (
