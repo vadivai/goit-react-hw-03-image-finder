@@ -15,6 +15,13 @@ import ReactModal from 'react-modal';
 // `;
 
 export const ModalStyled = styled(ReactModal)`
-  max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
+  max-width: calc(60vw);
+  max-height: calc(70vh-12px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* right: auto;
+  bottom: auto; */
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 `;
